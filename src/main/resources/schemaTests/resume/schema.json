@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Resume",
-  "description": "A machine-readable resume. Adapted from https://jsonresume.org/schema/",
+  "description": "A machine-readable resume. Adapted/stolen from https://jsonresume.org/schema/",
   "type": "object",
   "properties": {
     "basics": {

@@ -4,7 +4,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.everit.json.schema.Schema;
-import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -12,7 +11,7 @@ import org.json.JSONTokener;
 /**
  * Unit test for simple App.
  */
-public class AppTest extends TestCase {
+public class ResumeGeneratorTest extends TestCase {
 
 
     /**
@@ -20,7 +19,7 @@ public class AppTest extends TestCase {
      *
      * @param testName name of the test case
      */
-    public AppTest(String testName) {
+    public ResumeGeneratorTest(String testName) {
         super(testName);
     }
 
@@ -28,7 +27,7 @@ public class AppTest extends TestCase {
      * @return the suite of tests being tested
      */
     public static Test suite() {
-        return new TestSuite(AppTest.class);
+        return new TestSuite(ResumeGeneratorTest.class);
     }
 
     /**
@@ -38,19 +37,21 @@ public class AppTest extends TestCase {
         assertTrue(true);
     }
 
+    /***
+     * Validate a resume.
+     */
     public void testJsonSchemaResume() {
 
-        JSONObject jsonSchema = new JSONObject(
-                new JSONTokener(this.getClass().getClassLoader().getResourceAsStream("schemaTests/resume/schema.json")));
+        JSONObject jsonSubject = new JSONObject(new JSONTokener(
+                this.getClass().getClassLoader().getResourceAsStream("schemaTests/resume/example.json")));
 
-        JSONObject jsonSubject = new JSONObject(
-                new JSONTokener(this.getClass().getClassLoader().getResourceAsStream("schemaTests/resume/example.json")));
+        ResumeGenerator.validateResumeJSON(jsonSubject);
 
-        // Must validate
-        Schema schema = SchemaLoader.load(jsonSchema);
-        schema.validate(jsonSubject);
     }
 
+    /**
+     * Test a simple json schema validation.
+     */
     public void testJsonSchemaLampshade() {
 
         JSONObject jsonSchema = new JSONObject(
