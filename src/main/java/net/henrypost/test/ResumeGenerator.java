@@ -31,7 +31,7 @@ public class ResumeGenerator {
     }
 
     public static String generateResumeHTML(String jsonPath) {
-
+        return "<hTmL happy='no'/>";
     }
 
 
