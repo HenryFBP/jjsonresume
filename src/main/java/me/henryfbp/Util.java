@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-import static me.henryfbp.Constants.RESUME_SCHEMA;
+import static me.henryfbp.Constants.JSON_SCHEMA_RESUME;
 
 public class Util {
 
@@ -35,7 +35,7 @@ public class Util {
 
     public static void validateResumeJSON(JSONObject jsonObject) throws ValidationException {
 
-        Schema schema = SchemaLoader.load(RESUME_SCHEMA);
+        Schema schema = SchemaLoader.load(JSON_SCHEMA_RESUME);
         schema.validate(jsonObject);
     }
 

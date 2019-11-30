@@ -2,8 +2,6 @@ package me.henryfbp;
 
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-
 /**
  * A thin wrapper class for accessing JSON properties from a JSON resume document.
  */
@@ -21,7 +19,7 @@ public class Resume {
         this._jsonObject = jsonObject;
     }
 
-    public JSONObject getBasics(){
+    public JSONObject getBasics() {
         return this._jsonObject.getJSONObject("basics");
     }
 
@@ -29,11 +27,11 @@ public class Resume {
         return this.getBasics().getString("name");
     }
 
-    public  String getPersonLabel() {
+    public String getPersonLabel() {
         return this.getBasics().getString("label");
     }
 
-    public String getPictureURL() throws MalformedURLException {
+    public String getPictureURL() {
         return this.getBasics().getString("picture");
     }
 }

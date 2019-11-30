@@ -5,7 +5,6 @@ package me.henryfbp;
  */
 
 import j2html.TagCreator;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,13 +13,15 @@ import static j2html.TagCreator.*;
 
 public class ResumeGenerator {
 
-    public static String generateResumeHTML(JSONObject jsonObject) {
-        return generateResumeHTML(jsonObject, Constants.DEFAULT_CSS_FILE);
+    public static String generateResumeLaTeX(Resume resume) {
+        return "lol";
     }
 
-    public static String generateResumeHTML(JSONObject jsonObject, File cssFile) {
+    public static String generateResumeHTML(Resume resume) {
+        return generateResumeHTML(resume, Constants.DEFAULT_CSS_FILE);
+    }
 
-        Resume resume = new Resume(jsonObject);
+    public static String generateResumeHTML(Resume resume, File cssFile) {
 
         return html(
                 head(
@@ -29,8 +30,7 @@ public class ResumeGenerator {
                 ),
                 body(
                         TagCreator.main(attrs("#main.content"),
-                                h1(resume.getPersonName()),
-                                a(attrs("href=google.com"))
+                                h1(resume.getPersonName())
                         )
                 )
         ).renderFormatted();
@@ -41,7 +41,7 @@ public class ResumeGenerator {
         System.out.println("Hello World!");
 
         // write html to file
-        Util.writeStringToFile(generateResumeHTML(Constants.EXAMPLE_RESUME), new File("out/temp.html"), true);
+        Util.writeStringToFile(generateResumeHTML(new Resume(Constants.JSON_RESUME_EXAMPLE)), new File("out/temp.html"), true);
 
         // copy css file
         Util.copyFileToFolder(Constants.DEFAULT_CSS_FILE, new File("out"), true);
