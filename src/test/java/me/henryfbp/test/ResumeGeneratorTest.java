@@ -34,7 +34,7 @@ public class ResumeGeneratorTest extends TestCase {
     /**
      * Rigourous Test :-)
      */
-    public void testApp() {
+    public void testSanity() {
         assertTrue(true);
     }
 
