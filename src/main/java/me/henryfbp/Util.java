@@ -15,12 +15,10 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import static me.henryfbp.Constants.RESUME_SCHEMA;
-import static me.henryfbp.Util.getResourceFileAsStream;
 
 public class Util {
 
     public static File getResourceFile(String filepath) {
-
 
         URL res = Util.class.getClassLoader().getResource(filepath);
 
@@ -39,7 +37,6 @@ public class Util {
 
         Schema schema = SchemaLoader.load(RESUME_SCHEMA);
         schema.validate(jsonObject);
-
     }
 
     public static void writeStringToFile(String input, File outputFile) throws IOException {
@@ -49,6 +46,11 @@ public class Util {
     public static void copyFileToFolder(File file, Path folder) throws IOException {
         copyFileToFolder(file, folder, false);
     }
+
+    public static void copyFileToFolder(File file, File folder, boolean overwrite) throws IOException {
+        copyFileToFolder(file, folder.toPath(), overwrite);
+    }
+
 
     public static void copyFileToFolder(File file, Path folder, boolean overwrite) throws IOException {
         File destFile = new File(folder.toFile(), file.getName());
@@ -60,7 +62,6 @@ public class Util {
         }
 
         Files.copy(file.toPath(), destFile.toPath());
-
     }
 
     public static void writeStringToFile(String input, File outputFile, boolean overwrite) throws IOException {

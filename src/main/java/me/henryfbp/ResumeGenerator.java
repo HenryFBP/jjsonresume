@@ -29,7 +29,8 @@ public class ResumeGenerator {
                 ),
                 body(
                         TagCreator.main(attrs("#main.content"),
-                                h1("Heading!")
+                                h1(resume.getPersonName()),
+                                a(attrs("href=google.com"))
                         )
                 )
         ).renderFormatted();
@@ -43,7 +44,7 @@ public class ResumeGenerator {
         Util.writeStringToFile(generateResumeHTML(Constants.EXAMPLE_RESUME), new File("out/temp.html"), true);
 
         // copy css file
-        Util.copyFileToFolder(Constants.DEFAULT_CSS_FILE, new File("out", Constants.DEFAULT_CSS_FILE.getName()).toPath(), true);
+        Util.copyFileToFolder(Constants.DEFAULT_CSS_FILE, new File("out"), true);
 
     }
 }
