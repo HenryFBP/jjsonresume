@@ -44,16 +44,11 @@ public class Util {
     }
 
     public static void copyFileToFolder(File file, Path folder) throws IOException {
-        copyFileToFolder(file, folder, false);
+        copyFileToFolder(file, folder.toFile(), false);
     }
 
     public static void copyFileToFolder(File file, File folder, boolean overwrite) throws IOException {
-        copyFileToFolder(file, folder.toPath(), overwrite);
-    }
-
-
-    public static void copyFileToFolder(File file, Path folder, boolean overwrite) throws IOException {
-        File destFile = new File(folder.toFile(), file.getName());
+        File destFile = new File(folder, file.getName());
 
         if (overwrite) {
             if (destFile.exists()) {

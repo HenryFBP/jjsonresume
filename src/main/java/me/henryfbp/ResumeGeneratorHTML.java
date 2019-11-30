@@ -10,12 +10,10 @@ import java.io.File;
 import java.io.IOException;
 
 import static j2html.TagCreator.*;
+import static me.henryfbp.Constants.DEFAULT_CSS_FILE;
+import static me.henryfbp.Constants.RESUME_EXAMPLE;
 
-public class ResumeGenerator {
-
-    public static String generateResumeLaTeX(Resume resume) {
-        return "lol";
-    }
+public class ResumeGeneratorHTML {
 
     public static String generateResumeHTML(Resume resume) {
         return generateResumeHTML(resume, Constants.DEFAULT_CSS_FILE);
@@ -36,15 +34,23 @@ public class ResumeGenerator {
         ).renderFormatted();
     }
 
+    public static void generate(Resume resume, File cssFile, File outputDirectory, boolean overwrite) throws IOException {
+
+        // write html to file
+        Util.writeStringToFile(generateResumeHTML(resume, cssFile),
+                new File(outputDirectory, "resume.html"), overwrite);
+
+        // copy css file
+        Util.copyFileToFolder(cssFile, outputDirectory, overwrite);
+
+    }
+
 
     public static void main(String[] args) throws IOException {
         System.out.println("Hello World!");
 
-        // write html to file
-        Util.writeStringToFile(generateResumeHTML(new Resume(Constants.JSON_RESUME_EXAMPLE)), new File("out/temp.html"), true);
 
-        // copy css file
-        Util.copyFileToFolder(Constants.DEFAULT_CSS_FILE, new File("out"), true);
+        generate(RESUME_EXAMPLE, DEFAULT_CSS_FILE, new File("out/resume-html/"), true);
 
     }
 }

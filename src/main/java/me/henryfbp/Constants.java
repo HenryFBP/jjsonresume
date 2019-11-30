@@ -13,10 +13,12 @@ public final class Constants {
             "schemaTests/resume/schema.json");
 
     /**
-     * An example resume object.
+     * An example resume JSON object.
      */
     public static JSONObject JSON_RESUME_EXAMPLE = Util.getResourceFileAsJSONObject(
             "schemaTests/resume/example.json");
+
+    public static Resume RESUME_EXAMPLE = new Resume(JSON_RESUME_EXAMPLE);
 
     /**
      * A JSON 'lampshade' schema.
@@ -33,6 +35,6 @@ public final class Constants {
     public static File DEFAULT_CSS_FILE = Util.getResourceFile(
             "css/default.css");
 
-    public static File DEFAULT_LATEX_RESUME_STYLE_FILE = Util.getResourceFile(
-            "tex/default-resume.tex");
+    public static File DEFAULT_LATEX_RESUME_CLASS_FILE = Util.getResourceFile(
+            "tex/default-resume.cls");
 }
