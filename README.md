@@ -4,6 +4,10 @@
 
 `mvn package`
 
+## Testing
+
+`mvn test`
+
 ## Running
 
 TODO
