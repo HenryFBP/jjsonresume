@@ -1,26 +1,35 @@
 package me.henryfbp;
 
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import java.util.Objects;
+import java.io.File;
 
-public class Constants {
+
+public final class Constants {
     /**
      * A JSON resume schema.
      */
-    public static JSONObject RESUME_SCHEMA = new JSONObject(new JSONTokener(Objects.requireNonNull(Constants.class.getClassLoader().getResourceAsStream(
-            "schemaTests/resume/schema.json"))));
+    public static JSONObject RESUME_SCHEMA = Util.getResourceFileAsJSONObject(
+            "schemaTests/resume/schema.json");
 
     /**
      * An example resume object.
      */
-    public static JSONObject EXAMPLE_RESUME = new JSONObject(new JSONTokener(Objects.requireNonNull(Constants.class.getClassLoader().getResourceAsStream(
-            "schemaTests/resume/example.json"))));
+    public static JSONObject EXAMPLE_RESUME = Util.getResourceFileAsJSONObject(
+            "schemaTests/resume/example.json");
 
-    public static JSONObject LAMPSHADE_SCHEMA = new JSONObject(new JSONTokener(Objects.requireNonNull(Constants.class.getClassLoader().getResourceAsStream(
-            "schemaTests/lampshade/schema.json"))));
+    /**
+     * A JSON 'lampshade' schema.
+     */
+    public static JSONObject LAMPSHADE_SCHEMA = Util.getResourceFileAsJSONObject(
+            "schemaTests/lampshade/schema.json");
 
-    public static JSONObject EXAMPLE_LAMPSHADE = new JSONObject(new JSONTokener(Objects.requireNonNull(Constants.class.getClassLoader().getResourceAsStream(
-            "schemaTests/lampshade/example.json"))));
+    /**
+     * An example 'lampshade' object.
+     */
+    public static JSONObject EXAMPLE_LAMPSHADE = Util.getResourceFileAsJSONObject(
+            "schemaTests/lampshade/example.json");
+
+    public static File DEFAULT_CSS_FILE = Util.getResourceFile(
+            "css/default.css");
 }
