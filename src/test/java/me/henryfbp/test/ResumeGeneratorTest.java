@@ -1,12 +1,13 @@
-package net.henrypost.test;
+package me.henryfbp.test;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import me.henryfbp.Util;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+
+import static me.henryfbp.Constants.*;
 
 /**
  * Unit test for simple App.
@@ -41,26 +42,14 @@ public class ResumeGeneratorTest extends TestCase {
      * Validate a resume.
      */
     public void testJsonSchemaResume() {
-
-        JSONObject jsonSubject = new JSONObject(new JSONTokener(
-                this.getClass().getClassLoader().getResourceAsStream("schemaTests/resume/example.json")));
-
-        ResumeGenerator.validateResumeJSON(jsonSubject);
-
+        Util.validateResumeJSON(EXAMPLE_RESUME);
     }
 
     /**
      * Test a simple json schema validation.
      */
     public void testJsonSchemaLampshade() {
-
-        JSONObject jsonSchema = new JSONObject(
-                new JSONTokener(this.getClass().getClassLoader().getResourceAsStream("schemaTests/lampshade/schema.json")));
-
-        JSONObject jsonSubject = new JSONObject(
-                new JSONTokener(this.getClass().getClassLoader().getResourceAsStream("schemaTests/lampshade/example.json")));
-
-        Schema schema = SchemaLoader.load(jsonSchema);
-        schema.validate(jsonSubject);
+        Schema schema = SchemaLoader.load(LAMPSHADE_SCHEMA);
+        schema.validate(EXAMPLE_LAMPSHADE);
     }
 }
