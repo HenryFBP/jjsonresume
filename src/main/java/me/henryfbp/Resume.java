@@ -16,22 +16,62 @@ public class Resume {
 
         Util.validateResumeJSON(jsonObject);
 
-        this._jsonObject = jsonObject;
+        _jsonObject = jsonObject;
     }
 
     public JSONObject getBasics() {
-        return this._jsonObject.getJSONObject("basics");
+        return _jsonObject.getJSONObject("basics");
+    }
+
+    public JSONObject getLocation() {
+        return getBasics().getJSONObject("location");
+    }
+
+    public String getAddress() {
+        return getLocation().getString("address");
+    }
+
+    public String getPostalCode() {
+        return getLocation().getString("postalCode");
+    }
+
+    public String getCity() {
+        return getLocation().getString("city");
+    }
+
+    public String getCountryCode() {
+        return getLocation().getString("countryCode");
+    }
+
+    public String getRegion() {
+        return getLocation().getString("region");
     }
 
     public String getPersonName() {
-        return this.getBasics().getString("name");
+        return getBasics().getString("name");
+    }
+
+    public String getPhone() {
+        return getBasics().getString("phone");
+    }
+
+    public String getSummary() {
+        return getBasics().getString("summary");
+    }
+
+    public String getWebsite() {
+        return getBasics().getString("website");
+    }
+
+    public String getEmail() {
+        return getBasics().getString("email");
     }
 
     public String getPersonLabel() {
-        return this.getBasics().getString("label");
+        return getBasics().getString("label");
     }
 
     public String getPictureURL() {
-        return this.getBasics().getString("picture");
+        return getBasics().getString("picture");
     }
 }
