@@ -8,11 +8,14 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import static java.lang.String.format;
 import static me.henryfbp.Constants.DEFAULT_LATEX_RESUME_CLASS_FILE;
 import static me.henryfbp.Constants.RESUME_EXAMPLE;
 
+@SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public class ResumeGeneratorLaTeX {
 
     /**
@@ -43,8 +46,18 @@ public class ResumeGeneratorLaTeX {
         return makeAddress(s1, s2);
     }
 
-    public static String makeWebsite(String s1, String s2) {
-        return makeAddress(s1, s2);
+    public static String makeWebsite(URL url, String text) {
+        // TODO: This currently uses makeAddress because the
+        //  address class looks appropriate to use for phone
+        //  numbers and emails.
+        //  ---
+        //  This should be changed in the .cls file for semantic
+        //  purposes.
+        return makeAddress(makeHrefBlue(url, text));
+    }
+
+    public static String makeHrefBlue(URL url, String text) {
+        return String.format("\\href{%s}{\\color{blue}{%s}}", url.toString(), text);
     }
 
     public static String makeName(String name) {
@@ -74,21 +87,28 @@ public class ResumeGeneratorLaTeX {
                 "\\newcommand{\\itab}[1]{\\hspace{0em}\\rlap{#1}}\n";
     }
 
-    public static String generateResumeLaTeX(Resume resume, File classFile) {
+    public static String generateResumeLaTeX(Resume resume, File classFile) throws MalformedURLException {
         StringBuilder sb = new StringBuilder();
 
         sb.append(("%% Generated from jjsonresume.\n"))
                 .append(makeDocumentClass(classFile))
-                .append(makeDocumentHeaders())
-                .append(makeName(
-                        resume.getPersonName()))
-                .append(makeAddress(
-                        resume.getAddress(),
-                        String.format("%s, %s",
-                                resume.getCity(), resume.getPostalCode())))
-                .append(makePhoneAndEmail(
-                        resume.getPhone(), resume.getEmail()))
-        ;
+                .append(makeDocumentHeaders());
+
+        sb.append(makeName(
+                resume.getPersonName()) + "\n");
+
+        sb.append(makeAddress(
+                resume.getAddress(),
+                String.format("%s, %s",
+                        resume.getCity(), resume.getPostalCode())) + "\n");
+
+        sb.append(makePhoneAndEmail(
+                resume.getPhone(), resume.getEmail()) + "\n");
+
+
+        URL websiteURL = new URL(resume.getWebsite());
+
+        sb.append(makeWebsite(websiteURL, websiteURL.getHost()));
 
         return sb.toString();
     }
