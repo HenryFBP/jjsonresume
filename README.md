@@ -18,10 +18,4 @@ This is a tool that allows you to generate HTML or LaTeX resumes from JSON resum
 
 ## Running
 
-### Test HTML generation
-
-`mvn exec:java -Dexec.mainClass="me.henryfbp.generator.ResumeGeneratorHTML"`
-
-### Test LaTeX generation
-
-`mvn exec:java -Dexec.mainClass="me.henryfbp.generator.ResumeGeneratorLaTeX"`
+TODO
