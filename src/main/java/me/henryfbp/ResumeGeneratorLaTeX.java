@@ -18,16 +18,24 @@ import static me.henryfbp.Constants.RESUME_EXAMPLE;
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public class ResumeGeneratorLaTeX {
 
-    public static String make1ArgCommand(String command, String arg) {
-        return String.format("\\%s{%s}", command, arg);
+    public static String makeNArgCommand(String command, String... args) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("\\%s", command));
+
+        for (String arg : args) {
+            sb.append(String.format("{%s}", arg));
+        }
+
+        return sb.toString();
     }
 
     public static String makeAddress(String s1) {
-        return make1ArgCommand("address", s1);
+        return makeNArgCommand("address", s1);
     }
 
     public static String makeAddress(String s1, String s2) {
-        return make1ArgCommand(
+        return makeNArgCommand(
                 "address",
                 String.format("%s \\\\ %s", s1, s2)
         );
@@ -58,7 +66,7 @@ public class ResumeGeneratorLaTeX {
     }
 
     public static String makeName(String name) {
-        return make1ArgCommand("name", name);
+        return makeNArgCommand("name", name);
     }
 
     /**
@@ -78,48 +86,109 @@ public class ResumeGeneratorLaTeX {
 
     public static String makeDocumentHeaders() {
         return "\\usepackage[left=0.75in,top=0.6in,right=0.75in,bottom=0.6in]{geometry}\n" +
-                make1ArgCommand("usepackage", "hyperref") + "\n" +
-                make1ArgCommand("usepackage", "xcolor") + "\n" +
+                makeNArgCommand("usepackage", "hyperref") + "\n" +
+                makeNArgCommand("usepackage", "xcolor") + "\n" +
                 "\\newcommand{\\tab}[1]{\\hspace{.2667\\textwidth}\\rlap{#1}}\n" +
                 "\\newcommand{\\itab}[1]{\\hspace{0em}\\rlap{#1}}\n";
+    }
+
+
+    /**
+     * Given a Resume object, output both a LaTeX file and a default LaTeX style file into the output directory.
+     */
+    public static void generate(Resume resume, File outputDirectory, boolean overwrite) throws IOException {
+
+        // write latex to file
+        Util.writeStringToFile(
+                generateResumeLaTeX(resume, DEFAULT_LATEX_RESUME_CLASS_FILE),
+                new File(outputDirectory, "resume.tex"), overwrite
+        );
+
+        // copy latex class file
+        Util.copyFileToFolder(DEFAULT_LATEX_RESUME_CLASS_FILE,
+                outputDirectory,
+                overwrite
+        );
+
     }
 
     public static String generateResumeLaTeX(Resume resume, File classFile) throws MalformedURLException {
         BetterStringBuilder sb = new BetterStringBuilder(new StringBuilder());
 
+        // add imports and style info
         sb.appendWithNewline("%% Generated from jjsonresume")
                 .append(makeDocumentClass(classFile))
                 .append(makeDocumentHeaders());
 
+        // add name
         sb.appendWithNewline(makeName(
                 resume.getPersonName()));
 
+        // add address
         sb.appendWithNewline(makeAddress(
                 resume.getAddress(),
                 String.format("%s, %s",
                         resume.getCity(), resume.getPostalCode())));
 
+        // add phone and email
         sb.appendWithNewline(makePhoneAndEmail(
                 resume.getPhone(), resume.getEmail()));
 
-
+        // add website
         URL websiteURL = new URL(resume.getWebsite());
         sb.appendWithNewline(makeWebsite(websiteURL, websiteURL.getHost()));
 
         // start of document
-        sb.append(make1ArgCommand("begin", "document"));
+        sb.appendWithNewline(makeNArgCommand("begin", "document"));
+
+        // education section
+        if (resume.getEducation() != null) {
+            sb.appendWithNewline(makeNArgCommand("begin", "rSection", "Education"));
+
+            //TODO do it
+
+            sb.appendWithNewline(makeNArgCommand("end", "rSection"));
+        }
+
 
         // end of document
-        sb.append(make1ArgCommand("end", "document"));
+        sb.appendWithNewline(makeNArgCommand("end", "document"));
 
         return sb.toString();
+    }
+
+    /**
+     * Compile a TeX file into a PDF.
+     *
+     * @param folder  The folder to run the command in.
+     * @param texfile The TeX file.
+     */
+    private static void runLaTeXCommand(File folder, File texfile) {
+
+        ProcessBuilder processBuilder = new ProcessBuilder();
+
+        //chdir to folder
+        processBuilder.directory(folder);
+
+        // run pdflatex commands twice
+        processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
+        processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
     }
 
 
     public static void main(String[] args) throws IOException {
         System.out.println("Hello World! I make LaTeX resumes!");
 
-        System.out.println(generateResumeLaTeX(RESUME_EXAMPLE, DEFAULT_LATEX_RESUME_CLASS_FILE));
+        // make tex file
+        generate(RESUME_EXAMPLE,
+                new File("out/resume-latex/"),
+                true
+        );
+
+        // make pdf
+        runLaTeXCommand(new File("out/resume-latex/"), new File("resume.tex"));
     }
+
+
 }
 

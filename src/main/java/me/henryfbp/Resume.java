@@ -1,5 +1,6 @@
 package me.henryfbp;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -25,6 +26,10 @@ public class Resume {
 
     public JSONObject getLocation() {
         return getBasics().getJSONObject("location");
+    }
+
+    public JSONArray getEducation() {
+        return _jsonObject.getJSONArray("education");
     }
 
     public String getAddress() {
@@ -74,4 +79,6 @@ public class Resume {
     public String getPictureURL() {
         return getBasics().getString("picture");
     }
+
+
 }
