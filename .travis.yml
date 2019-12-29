@@ -3,7 +3,7 @@ sudo: required
 language: java
 
 before_install:
-  - apt install -y pdflatex
+  - sudo apt install -y pdflatex
 
 script:
   - mvn install
