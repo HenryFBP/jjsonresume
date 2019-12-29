@@ -1,4 +1,5 @@
 cache:
+  bundler: true
   directories:
     - .autoconf
     - $HOME/.m2
