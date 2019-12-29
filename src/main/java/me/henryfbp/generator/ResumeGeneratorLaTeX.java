@@ -18,11 +18,15 @@ import java.text.ParseException;
 
 import static java.lang.String.format;
 import static me.henryfbp.Constants.DEFAULT_LATEX_RESUME_CLASS_FILE;
-import static me.henryfbp.Util.dateToMonthYear;
 
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public class ResumeGeneratorLaTeX {
 
+    /***
+     * @param command Base LaTeX command.
+     * @param args Other LaTeX commands.
+     * @return E.G. "\command{arg1}{arg2}"
+     */
     public static String makeNArgCommand(String command, String... args) {
         StringBuilder sb = new StringBuilder();
 
@@ -99,6 +103,18 @@ public class ResumeGeneratorLaTeX {
                 .toString();
     }
 
+    public static String makeEducationSection(ResumeEducation resumeEducation) {
+
+        BetterStringBuilder sb = new BetterStringBuilder();
+        sb.appendWithNewline(makeNArgCommand("begin", "rSection", "Education"));
+
+        sb.appendWithNewline()
+
+        sb.appendWithNewline(makeNArgCommand("end", "rSection"));
+
+        return sb.toString(); //TODO
+    }
+
 
     /**
      * Given a Resume object, output both a LaTeX file and a default LaTeX style file
@@ -154,20 +170,14 @@ public class ResumeGeneratorLaTeX {
 
         // education section
         if (resume.getEducation() != null) {
-            sb.appendWithNewline(makeNArgCommand("begin", "rSection", "Education"));
-
             // for all education sections they've entered,
             for (int i = 0; i < resume.getEducationSectionItems(); i++) {
 
                 ResumeEducation re = resume.getSingleEducation(i);
 
-                //print all courses
-                re.getCourses().forEach(System.out::println);
-
-                System.out.println(dateToMonthYear(re.getStartDate()));
-                System.out.println(dateToMonthYear(re.getEndDate()));
+                // add 'em!
+                sb.appendWithNewline(makeEducationSection(re));
             }
-            sb.appendWithNewline(makeNArgCommand("end", "rSection"));
         }
 
 
