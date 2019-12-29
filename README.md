@@ -2,7 +2,7 @@
 
 ## Building
 
-`mvn package`
+`mvn install`
 
 ## Testing
 
@@ -10,4 +10,10 @@
 
 ## Running
 
-TODO
+### Test HTML generation
+
+`mvn exec:java -Dexec.mainClass="me.henryfbp.generator.ResumeGeneratorHTML"`
+
+### Test LaTeX generation
+
+`mvn exec:java -Dexec.mainClass="me.henryfbp.generator.ResumeGeneratorLaTeX"`
