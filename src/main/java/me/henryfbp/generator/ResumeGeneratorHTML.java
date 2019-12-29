@@ -1,4 +1,4 @@
-package me.henryfbp;
+package me.henryfbp.generator;
 
 /*
  * Hello world!
@@ -6,6 +6,9 @@ package me.henryfbp;
 
 import j2html.TagCreator;
 import j2html.tags.UnescapedText;
+import me.henryfbp.Constants;
+import me.henryfbp.Util;
+import me.henryfbp.model.Resume;
 
 import java.io.File;
 import java.io.IOException;

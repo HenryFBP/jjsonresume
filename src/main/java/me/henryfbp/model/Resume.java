@@ -1,6 +1,8 @@
-package me.henryfbp;
+package me.henryfbp.model;
 
+import me.henryfbp.Util;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -29,7 +31,20 @@ public class Resume {
     }
 
     public JSONArray getEducation() {
-        return _jsonObject.getJSONArray("education");
+        try {
+            return _jsonObject.getJSONArray("education");
+        } catch (JSONException je) { // DNE
+            return null;
+        }
+    }
+
+    /**
+     * Get one of the education sections.
+     *
+     * @param i Which section?
+     */
+    public ResumeEducation getAnEducation(int i) {
+        return new ResumeEducation((JSONObject) getEducation().get(i));
     }
 
     public String getAddress() {

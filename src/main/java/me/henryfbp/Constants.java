@@ -1,5 +1,6 @@
 package me.henryfbp;
 
+import me.henryfbp.model.Resume;
 import org.json.JSONObject;
 
 import java.io.File;

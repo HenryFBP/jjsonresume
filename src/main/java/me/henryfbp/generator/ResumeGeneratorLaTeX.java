@@ -1,9 +1,12 @@
-package me.henryfbp;
+package me.henryfbp.generator;
 
 /*
  * Hello world!
  */
 
+import me.henryfbp.BetterStringBuilder;
+import me.henryfbp.Util;
+import me.henryfbp.model.Resume;
 import org.apache.commons.io.FilenameUtils;
 
 import java.awt.*;
