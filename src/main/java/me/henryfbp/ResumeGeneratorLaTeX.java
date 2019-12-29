@@ -94,14 +94,18 @@ public class ResumeGeneratorLaTeX {
 
 
     /**
-     * Given a Resume object, output both a LaTeX file and a default LaTeX style file into the output directory.
+     * Given a Resume object, output both a LaTeX file and a default LaTeX style file
+     * into the output directory.
      */
-    public static void generate(Resume resume, File outputDirectory, boolean overwrite) throws IOException {
+    public static void generate(Resume resume,
+                                File outputDirectory,
+                                File outputFile,
+                                boolean overwrite) throws IOException {
 
         // write latex to file
         Util.writeStringToFile(
                 generateResumeLaTeX(resume, DEFAULT_LATEX_RESUME_CLASS_FILE),
-                new File(outputDirectory, "resume.tex"), overwrite
+                new File(outputDirectory, String.valueOf(outputFile)), overwrite
         );
 
         // copy latex class file
@@ -170,7 +174,7 @@ public class ResumeGeneratorLaTeX {
         //chdir to folder
         processBuilder.directory(folder);
 
-        // run pdflatex commands twice
+        // run pdflatex commands twice because idk
         processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
         processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
     }
@@ -182,6 +186,7 @@ public class ResumeGeneratorLaTeX {
         // make tex file
         generate(RESUME_EXAMPLE,
                 new File("out/resume-latex/"),
+                new File("resume.tex"),
                 true
         );
 
