@@ -1,12 +1,11 @@
+language: java
+dist: trusty
+
 cache:
   bundler: true
   directories:
     - .autoconf
     - $HOME/.m2
-
-sudo: required
-
-language: java
 
 before_install:
   - sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
