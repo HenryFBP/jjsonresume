@@ -90,11 +90,13 @@ public class ResumeGeneratorLaTeX {
     }
 
     public static String makeDocumentHeaders() {
-        return "\\usepackage[left=0.75in,top=0.6in,right=0.75in,bottom=0.6in]{geometry}\n" +
-                makeNArgCommand("usepackage", "hyperref") + "\n" +
-                makeNArgCommand("usepackage", "xcolor") + "\n" +
-                "\\newcommand{\\tab}[1]{\\hspace{.2667\\textwidth}\\rlap{#1}}\n" +
-                "\\newcommand{\\itab}[1]{\\hspace{0em}\\rlap{#1}}\n";
+        return new BetterStringBuilder()
+                .appendWithNewline("\\usepackage[left=0.75in,top=0.6in,right=0.75in,bottom=0.6in]{geometry}")
+                .appendWithNewline(makeNArgCommand("usepackage", "hyperref"))
+                .appendWithNewline(makeNArgCommand("usepackage", "xcolor"))
+                .appendWithNewline("\\newcommand{\\tab}[1]{\\hspace{.2667\\textwidth}\\rlap{#1}}")
+                .appendWithNewline("\\newcommand{\\itab}[1]{\\hspace{0em}\\rlap{#1}}")
+                .toString();
     }
 
 

@@ -8,6 +8,10 @@ public class BetterStringBuilder {
         this.stringBuilder = sb;
     }
 
+    public BetterStringBuilder() {
+        this.stringBuilder = new StringBuilder();
+    }
+
     public BetterStringBuilder append(String s) {
         this.stringBuilder.append(s);
 
