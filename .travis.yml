@@ -1,0 +1,15 @@
+sudo: required
+
+language: java
+
+before_install:
+  - apt install -y pdflatex
+
+script:
+  - mvn install
+  - mvn test
+  - mvn exec:java -Dexec.mainClass="me.henryfbp.generator.ResumeGeneratorHTML"
+  - mvn exec:java -Dexec.mainClass="me.henryfbp.generator.ResumeGeneratorLaTeX"
+
+after_success:
+  - echo "potato :-)"
