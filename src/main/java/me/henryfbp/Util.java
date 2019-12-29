@@ -3,6 +3,7 @@ package me.henryfbp;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -12,6 +13,11 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static me.henryfbp.Constants.JSON_SCHEMA_RESUME;
@@ -31,6 +37,32 @@ public class Util {
 
     public static JSONObject getResourceFileAsJSONObject(String filepath) {
         return new JSONObject(new JSONTokener(getResourceFileAsStream(filepath)));
+    }
+
+    /***
+     * @param s A String, i.e. "1992-12-01". YYYY-MM-DD.
+     * @return A Date object.
+     * @throws ParseException
+     */
+    public static Date yyyymmddToDate(String s) throws ParseException {
+        return new SimpleDateFormat("yyyy-mm-dd").parse(s);
+    }
+
+    /***
+     * @param date A date.
+     * @return i.e. August 2019
+     */
+    public static String dateToMonthYear(Date date) {
+        return new SimpleDateFormat("MMMM yyyy").format(date);
+    }
+
+    public static List<String> jsonArrayToStringArray(JSONArray jsonArray) {
+        List<String> sarr = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            sarr.add(jsonArray.getString(i));
+        }
+        return sarr;
     }
 
     public static void validateResumeJSON(JSONObject jsonObject) throws ValidationException {

@@ -15,10 +15,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 
 import static java.lang.String.format;
 import static me.henryfbp.Constants.DEFAULT_LATEX_RESUME_CLASS_FILE;
 import static me.henryfbp.Constants.RESUME_EXAMPLE;
+import static me.henryfbp.Util.dateToMonthYear;
 
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public class ResumeGeneratorLaTeX {
@@ -105,7 +107,7 @@ public class ResumeGeneratorLaTeX {
     public static void generate(Resume resume,
                                 File outputDirectory,
                                 File outputFile,
-                                boolean overwrite) throws IOException {
+                                boolean overwrite) throws IOException, ParseException {
 
         // write latex to file
         Util.writeStringToFile(
@@ -121,7 +123,7 @@ public class ResumeGeneratorLaTeX {
 
     }
 
-    public static String generateResumeLaTeX(Resume resume, File classFile) throws MalformedURLException {
+    public static String generateResumeLaTeX(Resume resume, File classFile) throws MalformedURLException, ParseException {
         BetterStringBuilder sb = new BetterStringBuilder(new StringBuilder());
 
         // add imports and style info
@@ -159,7 +161,11 @@ public class ResumeGeneratorLaTeX {
 
                 ResumeEducation re = resume.getSingleEducation(i);
 
-                System.out.println(re._jsonObject.toString());
+                //print all courses
+                re.getCourses().forEach(System.out::println);
+
+                System.out.println(dateToMonthYear(re.getStartDate()));
+                System.out.println(dateToMonthYear(re.getEndDate()));
             }
             sb.appendWithNewline(makeNArgCommand("end", "rSection"));
         }
@@ -190,7 +196,7 @@ public class ResumeGeneratorLaTeX {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
         System.out.println("Hello World! I make LaTeX resumes!");
 
         // make tex file
