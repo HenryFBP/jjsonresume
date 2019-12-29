@@ -210,8 +210,12 @@ public class ResumeGeneratorLaTeX {
         runLaTeXCommand(new File("out/resume-latex/"),
                 new File("resume.tex"));
 
-        // show pdf
-        Desktop.getDesktop().open(new File("out/resume-latex", "resume.pdf"));
+        if (Desktop.isDesktopSupported()) {
+            // show pdf
+            Desktop.getDesktop().open(new File("out/resume-latex", "resume.pdf"));
+        } else {
+            System.out.println("Not showing PDF as desktop display is not supported.");
+        }
 
     }
 
