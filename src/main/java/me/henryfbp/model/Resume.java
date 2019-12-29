@@ -38,12 +38,16 @@ public class Resume {
         }
     }
 
+    public int getEducationSectionItems() {
+        return getEducation().length();
+    }
+
     /**
      * Get one of the education sections.
      *
      * @param i Which section?
      */
-    public ResumeEducation getAnEducation(int i) {
+    public ResumeEducation getSingleEducation(int i) {
         return new ResumeEducation((JSONObject) getEducation().get(i));
     }
 

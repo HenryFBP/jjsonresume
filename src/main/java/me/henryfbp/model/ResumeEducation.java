@@ -1,6 +1,5 @@
 package me.henryfbp.model;
 
-import me.henryfbp.Util;
 import org.json.JSONObject;
 
 /**
@@ -13,9 +12,7 @@ public class ResumeEducation {
     public JSONObject _jsonObject;
 
     public ResumeEducation(JSONObject jsonObject) {
-
-        Util.validateResumeJSON(jsonObject);
-
+        
         _jsonObject = jsonObject;
     }
 

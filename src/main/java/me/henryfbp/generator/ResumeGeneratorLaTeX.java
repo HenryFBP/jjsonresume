@@ -7,6 +7,7 @@ package me.henryfbp.generator;
 import me.henryfbp.BetterStringBuilder;
 import me.henryfbp.Util;
 import me.henryfbp.model.Resume;
+import me.henryfbp.model.ResumeEducation;
 import org.apache.commons.io.FilenameUtils;
 
 import java.awt.*;
@@ -153,8 +154,13 @@ public class ResumeGeneratorLaTeX {
         if (resume.getEducation() != null) {
             sb.appendWithNewline(makeNArgCommand("begin", "rSection", "Education"));
 
-            //TODO do it
+            // for all education sections they've entered,
+            for (int i = 0; i < resume.getEducationSectionItems(); i++) {
 
+                ResumeEducation re = resume.getSingleEducation(i);
+
+                System.out.println(re._jsonObject.toString());
+            }
             sb.appendWithNewline(makeNArgCommand("end", "rSection"));
         }
 
