@@ -14,8 +14,6 @@ import java.io.File;
 import java.io.IOException;
 
 import static j2html.TagCreator.*;
-import static me.henryfbp.Constants.DEFAULT_CSS_FILE;
-import static me.henryfbp.Constants.RESUME_EXAMPLE;
 
 public class ResumeGeneratorHTML {
 
@@ -64,13 +62,6 @@ public class ResumeGeneratorHTML {
 
         // copy css file
         Util.copyFileToFolder(cssFile, outputDirectory, overwrite);
-
-    }
-
-    public static void main(String[] args) throws IOException {
-        System.out.println("Hello World! I make HTML resumes!");
-
-        generate(RESUME_EXAMPLE, DEFAULT_CSS_FILE, new File("out/resume-html/"), true);
     }
 }
 

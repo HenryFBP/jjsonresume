@@ -10,7 +10,6 @@ import me.henryfbp.model.Resume;
 import me.henryfbp.model.ResumeEducation;
 import org.apache.commons.io.FilenameUtils;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -19,7 +18,6 @@ import java.text.ParseException;
 
 import static java.lang.String.format;
 import static me.henryfbp.Constants.DEFAULT_LATEX_RESUME_CLASS_FILE;
-import static me.henryfbp.Constants.RESUME_EXAMPLE;
 import static me.henryfbp.Util.dateToMonthYear;
 
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
@@ -183,7 +181,7 @@ public class ResumeGeneratorLaTeX {
      * @param folder  The folder to run the command in.
      * @param texfile The TeX file.
      */
-    private static void runLaTeXCommand(File folder, File texfile) {
+    public static void runLaTeXCommand(File folder, File texfile) {
 
         ProcessBuilder processBuilder = new ProcessBuilder();
 
@@ -194,31 +192,5 @@ public class ResumeGeneratorLaTeX {
         processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
         processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
     }
-
-
-    public static void main(String[] args) throws IOException, ParseException {
-        System.out.println("Hello World! I make LaTeX resumes!");
-
-        // make tex file
-        generate(RESUME_EXAMPLE,
-                new File("out/resume-latex/"),
-                new File("resume.tex"),
-                true
-        );
-
-        // make pdf
-        runLaTeXCommand(new File("out/resume-latex/"),
-                new File("resume.tex"));
-
-        if (Desktop.isDesktopSupported()) {
-            // show pdf
-            Desktop.getDesktop().open(new File("out/resume-latex", "resume.pdf"));
-        } else {
-            System.out.println("Not showing PDF as desktop display is not supported.");
-        }
-
-    }
-
-
 }
 
