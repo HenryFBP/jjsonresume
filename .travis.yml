@@ -3,7 +3,7 @@ sudo: required
 language: java
 
 before_install:
-  - sudo apt install -y pdflatex
+  - sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
 
 script:
   - "mvn cobertura:cobertura" # Thanks to https://github.com/codecov/example-java-maven
