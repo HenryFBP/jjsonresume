@@ -6,10 +6,12 @@ before_install:
   - sudo apt install -y pdflatex
 
 script:
+  - "mvn cobertura:cobertura" # Thanks to https://github.com/codecov/example-java-maven
   - mvn install
   - mvn test
   - mvn exec:java -Dexec.mainClass="me.henryfbp.generator.ResumeGeneratorHTML"
   - mvn exec:java -Dexec.mainClass="me.henryfbp.generator.ResumeGeneratorLaTeX"
 
 after_success:
+  - bash <(curl -s https://codecov.io/bash)
   - echo "potato :-)"
