@@ -18,9 +18,6 @@ import static me.henryfbp.Constants.RESUME_EXAMPLE;
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public class ResumeGeneratorLaTeX {
 
-    /**
-     * \command{arg}
-     */
     public static String make1ArgCommand(String command, String arg) {
         return String.format("\\%s{%s}", command, arg);
     }
@@ -88,27 +85,32 @@ public class ResumeGeneratorLaTeX {
     }
 
     public static String generateResumeLaTeX(Resume resume, File classFile) throws MalformedURLException {
-        StringBuilder sb = new StringBuilder();
+        BetterStringBuilder sb = new BetterStringBuilder(new StringBuilder());
 
-        sb.append(("%% Generated from jjsonresume.\n"))
+        sb.appendWithNewline("%% Generated from jjsonresume")
                 .append(makeDocumentClass(classFile))
                 .append(makeDocumentHeaders());
 
-        sb.append(makeName(
-                resume.getPersonName()) + "\n");
+        sb.appendWithNewline(makeName(
+                resume.getPersonName()));
 
-        sb.append(makeAddress(
+        sb.appendWithNewline(makeAddress(
                 resume.getAddress(),
                 String.format("%s, %s",
-                        resume.getCity(), resume.getPostalCode())) + "\n");
+                        resume.getCity(), resume.getPostalCode())));
 
-        sb.append(makePhoneAndEmail(
-                resume.getPhone(), resume.getEmail()) + "\n");
+        sb.appendWithNewline(makePhoneAndEmail(
+                resume.getPhone(), resume.getEmail()));
 
 
         URL websiteURL = new URL(resume.getWebsite());
+        sb.appendWithNewline(makeWebsite(websiteURL, websiteURL.getHost()));
 
-        sb.append(makeWebsite(websiteURL, websiteURL.getHost()));
+        // start of document
+        sb.append(make1ArgCommand("begin", "document"));
+
+        // end of document
+        sb.append(make1ArgCommand("end", "document"));
 
         return sb.toString();
     }
