@@ -6,6 +6,7 @@ package me.henryfbp;
 
 import org.apache.commons.io.FilenameUtils;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -191,7 +192,12 @@ public class ResumeGeneratorLaTeX {
         );
 
         // make pdf
-        runLaTeXCommand(new File("out/resume-latex/"), new File("resume.tex"));
+        runLaTeXCommand(new File("out/resume-latex/"),
+                new File("resume.tex"));
+
+        // show pdf
+        Desktop.getDesktop().open(new File("out/resume-latex", "resume.pdf"));
+
     }
 
 
