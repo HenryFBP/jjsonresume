@@ -108,7 +108,7 @@ public class ResumeGeneratorLaTeX {
         BetterStringBuilder sb = new BetterStringBuilder();
         sb.appendWithNewline(makeNArgCommand("begin", "rSection", "Education"));
 
-        sb.appendWithNewline()
+        sb.appendWithNewline("todo");
 
         sb.appendWithNewline(makeNArgCommand("end", "rSection"));
 
