@@ -18,4 +18,4 @@ This is a tool that allows you to generate HTML or LaTeX resumes from JSON resum
 
 ## Running
 
-TODO
+`mvn exec:java -Dexec.mainClass="me.henryfbp.demo.GenerateExamplePDF"`

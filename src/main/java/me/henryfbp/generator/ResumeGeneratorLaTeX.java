@@ -193,16 +193,19 @@ public class ResumeGeneratorLaTeX {
      * @param folder  The folder to run the command in.
      * @param texfile The TeX file.
      */
-    public static void runLaTeXCommand(File folder, File texfile) {
+    public static void runLaTeXCommand(File folder, File texfile) throws IOException, InterruptedException {
 
-        ProcessBuilder processBuilder = new ProcessBuilder();
+        // Run pdflatex twice. I don't know why.
+        for (int i = 0; i < 2; i++) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
 
-        //chdir to folder
-        processBuilder.directory(folder);
+            //chdir to folder
+            processBuilder.directory(folder);
+            processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
 
-        // run pdflatex commands twice because idk
-        processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
-        processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
+            // block on subprocess completion.
+            processBuilder.start().waitFor();
+        }
     }
 }
 
