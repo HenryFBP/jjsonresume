@@ -15,9 +15,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.Date;
 
 import static java.lang.String.format;
 import static me.henryfbp.Constants.DEFAULT_LATEX_RESUME_CLASS_FILE;
+import static me.henryfbp.Util.dateToMonthYear;
 
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public class ResumeGeneratorLaTeX {
@@ -78,6 +80,15 @@ public class ResumeGeneratorLaTeX {
         return makeNArgCommand("name", name);
     }
 
+    public static String makeUniversityNameWithDates(String universityName, Date startDate, Date endDate) {
+        return String.format(
+                "{\\bf %s} \\hfill {\\em %s - %s}",
+                universityName,
+                dateToMonthYear(startDate),
+                dateToMonthYear(endDate)
+        );
+    }
+
     /**
      * Given a LaTeX class file (*.cls), return the LaTeX expression that imports that class file.
      */
@@ -108,7 +119,18 @@ public class ResumeGeneratorLaTeX {
         BetterStringBuilder sb = new BetterStringBuilder();
         sb.appendWithNewline(makeNArgCommand("begin", "rSection", "Education"));
 
-        sb.appendWithNewline("todo");
+
+        try {
+            sb.appendWithNewline(
+                    makeUniversityNameWithDates(
+                            resumeEducation.getInstitution(),
+                            resumeEducation.getStartDate(),
+                            resumeEducation.getEndDate()
+                    )
+            );
+        } catch (ParseException e) {
+            throw new RuntimeException(String.format("Malformed dates in resume education section for '%s'", resumeEducation.getInstitution()));
+        }
 
         sb.appendWithNewline(makeNArgCommand("end", "rSection"));
 
