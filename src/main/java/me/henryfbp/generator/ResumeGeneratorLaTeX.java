@@ -45,6 +45,9 @@ public class ResumeGeneratorLaTeX {
         return makeNArgCommand("address", s1);
     }
 
+    /**
+     * 123 example way  <~>  chicago il 12345
+     */
     public static String makeAddress(String s1, String s2) {
         return makeNArgCommand(
                 "address",
@@ -80,6 +83,13 @@ public class ResumeGeneratorLaTeX {
         return makeNArgCommand("name", name);
     }
 
+    public static String makeLineBreak() {
+        return "\\\\";
+    }
+
+    /**
+     * IIT     (spaces)       sep 2015 - dec 2019
+     */
     public static String makeUniversityNameWithDates(String universityName, Date startDate, Date endDate) {
         return String.format(
                 "{\\bf %s} \\hfill {\\em %s - %s}",
@@ -87,6 +97,24 @@ public class ResumeGeneratorLaTeX {
                 dateToMonthYear(startDate),
                 dateToMonthYear(endDate)
         );
+    }
+
+    public static String makeGPA(String gpa) {
+        return String.format("%s GPA", gpa);
+    }
+
+    /***
+     * Bachelor's in ITM
+     */
+    public static String makeUniversityMajorAndSubject(String major, String subject) {
+        return String.format("%s's in %s", major, subject);
+    }
+
+    /**
+     * Bachelor's in ITM, 4.0 GPA
+     */
+    public static String makeUniversityMajorAndSubjectAndGPA(String major, String subject, String gpa) {
+        return makeUniversityMajorAndSubject(major, subject) + ", " + makeGPA(gpa);
     }
 
     /**
@@ -126,11 +154,20 @@ public class ResumeGeneratorLaTeX {
                             resumeEducation.getInstitution(),
                             resumeEducation.getStartDate(),
                             resumeEducation.getEndDate()
-                    )
+                    ) + makeLineBreak()
             );
         } catch (ParseException e) {
             throw new RuntimeException(String.format("Malformed dates in resume education section for '%s'", resumeEducation.getInstitution()));
         }
+
+        sb.appendWithNewline(
+                makeUniversityMajorAndSubjectAndGPA(
+                        resumeEducation.getStudyType(),
+                        resumeEducation.getArea(),
+                        resumeEducation.getGPA()
+                ) + makeLineBreak()
+        );
+
 
         sb.appendWithNewline(makeNArgCommand("end", "rSection"));
 
