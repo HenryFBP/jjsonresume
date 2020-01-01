@@ -206,6 +206,9 @@ public class ResumeGeneratorLaTeX {
         // end of document
         sb.appendWithNewline(makeNArgCommand("end", "document"));
 
+        //print latex file contents
+        System.out.println(sb.toString());
+
         return sb.toString();
     }
 
