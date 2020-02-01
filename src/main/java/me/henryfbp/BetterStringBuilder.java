@@ -22,6 +22,10 @@ public class BetterStringBuilder {
         return this.append(s + "\n");
     }
 
+    public BetterStringBuilder appendWithNewline() {
+        return this.append("\n");
+    }
+
     @Override
     public String toString() {
         return this.stringBuilder.toString();
