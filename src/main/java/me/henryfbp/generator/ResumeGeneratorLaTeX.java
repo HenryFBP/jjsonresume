@@ -15,9 +15,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.Date;
 
 import static java.lang.String.format;
 import static me.henryfbp.Constants.DEFAULT_LATEX_RESUME_CLASS_FILE;
+import static me.henryfbp.Util.dateToMonthYear;
 
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public class ResumeGeneratorLaTeX {
@@ -43,6 +45,9 @@ public class ResumeGeneratorLaTeX {
         return makeNArgCommand("address", s1);
     }
 
+    /**
+     * 123 example way  <~>  chicago il 12345
+     */
     public static String makeAddress(String s1, String s2) {
         return makeNArgCommand(
                 "address",
@@ -78,6 +83,40 @@ public class ResumeGeneratorLaTeX {
         return makeNArgCommand("name", name);
     }
 
+    public static String makeLineBreak() {
+        return "\\\\";
+    }
+
+    /**
+     * IIT     (spaces)       sep 2015 - dec 2019
+     */
+    public static String makeUniversityNameWithDates(String universityName, Date startDate, Date endDate) {
+        return String.format(
+                "{\\bf %s} \\hfill {\\em %s - %s}",
+                universityName,
+                dateToMonthYear(startDate),
+                dateToMonthYear(endDate)
+        );
+    }
+
+    public static String makeGPA(String gpa) {
+        return String.format("%s GPA", gpa);
+    }
+
+    /***
+     * Bachelor's in ITM
+     */
+    public static String makeUniversityMajorAndSubject(String major, String subject) {
+        return String.format("%s's in %s", major, subject);
+    }
+
+    /**
+     * Bachelor's in ITM, 4.0 GPA
+     */
+    public static String makeUniversityMajorAndSubjectAndGPA(String major, String subject, String gpa) {
+        return makeUniversityMajorAndSubject(major, subject) + ", " + makeGPA(gpa);
+    }
+
     /**
      * Given a LaTeX class file (*.cls), return the LaTeX expression that imports that class file.
      */
@@ -107,6 +146,27 @@ public class ResumeGeneratorLaTeX {
 
         BetterStringBuilder sb = new BetterStringBuilder();
         sb.appendWithNewline(makeNArgCommand("begin", "rSection", "Education"));
+
+
+        try {
+            sb.appendWithNewline(
+                    makeUniversityNameWithDates(
+                            resumeEducation.getInstitution(),
+                            resumeEducation.getStartDate(),
+                            resumeEducation.getEndDate()
+                    ) + makeLineBreak()
+            );
+        } catch (ParseException e) {
+            throw new RuntimeException(String.format("Malformed dates in resume education section for '%s'", resumeEducation.getInstitution()));
+        }
+
+        sb.appendWithNewline(
+                makeUniversityMajorAndSubjectAndGPA(
+                        resumeEducation.getStudyType(),
+                        resumeEducation.getArea(),
+                        resumeEducation.getGPA()
+                ) + makeLineBreak()
+        );
 
         sb.appendWithNewline();
 
@@ -184,6 +244,9 @@ public class ResumeGeneratorLaTeX {
         // end of document
         sb.appendWithNewline(makeNArgCommand("end", "document"));
 
+        //print latex file contents
+        System.out.println(sb.toString());
+
         return sb.toString();
     }
 
@@ -193,16 +256,19 @@ public class ResumeGeneratorLaTeX {
      * @param folder  The folder to run the command in.
      * @param texfile The TeX file.
      */
-    public static void runLaTeXCommand(File folder, File texfile) {
+    public static void runLaTeXCommand(File folder, File texfile) throws IOException, InterruptedException {
 
-        ProcessBuilder processBuilder = new ProcessBuilder();
+        // Run pdflatex twice. I don't know why.
+        for (int i = 0; i < 2; i++) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
 
-        //chdir to folder
-        processBuilder.directory(folder);
+            //chdir to folder
+            processBuilder.directory(folder);
+            processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
 
-        // run pdflatex commands twice because idk
-        processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
-        processBuilder.command("pdflatex", "--shell-escape", texfile.getName());
+            // block on subprocess completion.
+            processBuilder.start().waitFor();
+        }
     }
 }
 
